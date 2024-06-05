@@ -1267,7 +1267,7 @@ mod test {
             assert_eq!(b, b"some data");
             // as peer b will drop all packets after the third packet, the connection should be broken
             tokio::time::sleep(Duration::from_secs(10)).await;
-            // conn should be broken as the remote peer cannot receive message and ping
+            // conn should be broken as the remote peer cannot receive message and chat
             conn.recv().await.unwrap_err();
             Ok::<_, DynError>(())
         });

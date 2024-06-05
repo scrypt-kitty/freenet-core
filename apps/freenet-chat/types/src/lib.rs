@@ -6,7 +6,7 @@ pub use chrono;
 
 #[derive(Debug, Default, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "clap", derive(clap::Parser))]
-pub struct PingContractOptions {
+pub struct ChatContractOptions {
     /// Time to live for the chat record.
     #[serde(with = "humantime_serde")]
     #[cfg_attr(feature = "clap", clap(long, value_parser = duration_parser, default_value = "5s"))]
@@ -24,7 +24,7 @@ pub struct PingContractOptions {
 }
 
 #[inline]
-fn freenet_ping() -> String {
+fn freenet_chat() -> String {
     "freenet-chat".to_string()
 }
 
@@ -35,11 +35,11 @@ fn duration_parser(s: &str) -> Result<Duration, humantime::DurationError> {
 }
 
 #[derive(Debug, Default, serde::Serialize, serde::Deserialize)]
-pub struct Ping {
+pub struct Chat {
     from: HashMap<String, DateTime<Utc>>,
 }
 
-impl core::ops::Deref for Ping {
+impl core::ops::Deref for Chat {
     type Target = HashMap<String, DateTime<Utc>>;
 
     fn deref(&self) -> &Self::Target {
@@ -47,13 +47,13 @@ impl core::ops::Deref for Ping {
     }
 }
 
-impl core::ops::DerefMut for Ping {
+impl core::ops::DerefMut for Chat {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.from
     }
 }
 
-impl Ping {
+impl Chat {
     pub fn new() -> Self {
         Self::default()
     }
@@ -86,11 +86,11 @@ mod tests {
 
     #[test]
     fn test_merge_expired() {
-        let mut ping = Ping::new();
+        let mut ping = Chat::new();
         ping.insert("Alice".to_string());
         ping.insert("Bob".to_string());
 
-        let mut other = Ping::new();
+        let mut other = Chat::new();
         other.from.insert("Alice".to_string(), Utc::now() - Duration::from_secs(6));
         other.from.insert("Charlie".to_string(), Utc::now() - Duration::from_secs(6));
 
@@ -104,11 +104,11 @@ mod tests {
 
     #[test]
     fn test_merge_ok() {
-        let mut ping = Ping::new();
+        let mut ping = Chat::new();
         ping.insert("Alice".to_string());
         ping.insert("Bob".to_string());
 
-        let mut other = Ping::new();
+        let mut other = Chat::new();
         other.from.insert("Alice".to_string(), Utc::now() - Duration::from_secs(4));
         other.from.insert("Charlie".to_string(), Utc::now() - Duration::from_secs(4));
 

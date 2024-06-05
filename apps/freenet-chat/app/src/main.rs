@@ -31,7 +31,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync + 'static>
         .init();
 
     const PING_CODE: &[u8] =
-        include_bytes!("../../contracts/ping/build/freenet/freenet_ping_contract");
+        include_bytes!("../../contracts/chat/build/freenet/freenet_ping_contract");
 
     // create a websocket connection to host.
     let uri = format!(
