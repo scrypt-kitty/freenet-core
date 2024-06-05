@@ -1,3 +1,4 @@
+use bincode::{deserialize, serialize};
 use chrono::Utc;
 use clap::Parser;
 use freenet_ping_types::{Ping, PingContractOptions};
@@ -44,7 +45,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync + 'static>
     })?;
     let mut client = WebApi::start(stream);
 
-    let params = Parameters::from(serde_json::to_vec(&args.parameters).unwrap());
+    let params = Parameters::from(serialize(&args.parameters).unwrap());
     let container = ContractContainer::try_from((PING_CODE.to_vec(), &params))?;
     let contract_key = container.key();
 
@@ -60,10 +61,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync + 'static>
 
     let mut local_state = match resp {
         Ok(HostResponse::ContractResponse(ContractResponse::GetResponse {
-            key,
-            contract: _,
-            state,
-        })) => {
+                                              key,
+                                              contract: _,
+                                              state,
+                                          })) => {
             if contract_key != key || state.is_empty() {
                 client
                     .send(ClientRequest::ContractOp(ContractRequest::Put {
@@ -74,7 +75,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync + 'static>
                     .await?;
                 Ping::default()
             } else {
-                let old_ping = serde_json::from_slice::<Ping>(&state)?;
+                let old_ping = deserialize::<Ping>(&state)?;
                 let mut ping = Ping::default();
                 ping.merge(old_ping, args.parameters.ttl);
 
@@ -116,7 +117,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync + 'static>
             ping.insert(name.clone());
             if let Err(e) = client.send(ClientRequest::ContractOp(ContractRequest::Update {
               key: contract_key.clone(),
-              data: UpdateData::Delta(StateDelta::from(serde_json::to_vec(&ping).unwrap())),
+              data: UpdateData::Delta(StateDelta::from(serialize(&ping).unwrap())),
             })).await {
               tracing::error!(err=%e, "failed to send update request");
             }
@@ -142,7 +143,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync + 'static>
                           let ping = if state.is_empty() {
                             Ping::default()
                           } else {
-                            match serde_json::from_slice::<Ping>(state) {
+                            match deserialize::<Ping>(state) {
                               Ok(p) => p,
                               Err(e) => return Err(e),
                             }
