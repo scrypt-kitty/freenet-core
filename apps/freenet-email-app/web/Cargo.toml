@@ -18,7 +18,7 @@ bs58 = "0.5"
 arc-swap = "1.6"
 rand_chacha = "0.3"
 chrono = { workspace = true, features = ["wasmbind"] }
-dioxus = "0.4.0"
+dioxus = { version = "0.5.1", default-features = false, features = ["web"] }
 futures = "0.3"
 rsa = { workspace = true }
 chacha20poly1305 = "0.10"

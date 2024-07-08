@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["contracts/chat", "app", "types"]
+members = ["contracts/room", "app", "types"]
 
 [workspace.dependencies]
 freenet-stdlib = { path = "../../stdlib/rust", features = ["contract"] }

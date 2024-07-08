@@ -1,5 +1,5 @@
 [package]
-name = "freenet-chat-contract"
+name = "room-contract"
 version = "0.1.0"
 edition = "2021"
 
@@ -13,6 +13,6 @@ bincode = "2.0.0-rc.3"
 
 [features]
 default = ["freenet-main-contract"]
-contract = ["freenet-stdlib/contract"]
+contract = ["../../../../stdlib/contract"]
 freenet-main-contract = []
 trace = ["freenet-stdlib/trace"]

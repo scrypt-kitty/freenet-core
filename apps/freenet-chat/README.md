@@ -54,7 +54,7 @@ Ensure you have the following prerequisites installed:
 
   ```bash
   git clone --recurse-submodules https://github.com/freenet/freenet-core.git
-  cd freenet-core/apps/freenet-chat
+  cd freenet-core/apps/freenet-room
   ```
 
 ### Freenet Development Tool and Kernel
@@ -62,7 +62,7 @@ Ensure you have the following prerequisites installed:
 - Install the Freenet development tool (`fdev`) and the Freenet kernel for local development:
 
   ```bash
-  # You should be in freenet-core/apps/freenet-chat
+  # You should be in freenet-core/apps/freenet-room
   cargo install --path ../../crates/core
   cargo install --path ../../crates/fdev
   ```
@@ -80,8 +80,8 @@ Ensure you have the following prerequisites installed:
 - Build the contract using the Freenet development tool:
 
   ```bash
-  # You should be in freenet-core/apps/freenet-chat
-  cd contracts/chat
+  # You should be in freenet-core/apps/freenet-room
+  cd contracts/room
   CARGO_TARGET_DIR=./target fdev build --features contract
   cd -
   ```
@@ -101,14 +101,14 @@ Ensure you have the following prerequisites installed:
   ```bash
   cd app
   cargo install --path .
-  freenet-chat
+  freenet-room
   ```
   
   You will see something like this:
 
   ```bash
-    $ freenet-chat
-    2024-05-14T15:33:20.685412Z  INFO freenet_ping: 154: put chat contract successfully! key=Cuj4LbFao6vzZ5VtvZAKZ64Y99qNh7MpTUdaCcEkU4oR
+    $ freenet-room
+    2024-05-14T15:33:20.685412Z  INFO freenet_ping: 154: put room contract successfully! key=Cuj4LbFao6vzZ5VtvZAKZ64Y99qNh7MpTUdaCcEkU4oR
     2024-05-14T15:33:20.729883Z  INFO freenet_ping: 146: Hello, ubiquitous-letters!
     2024-05-14T15:33:22.154174Z  INFO freenet_ping: 146: Hello, unwieldy-level!
     2024-05-14T15:33:23.668494Z  INFO freenet_ping: 146: Hello, woozy-pin!

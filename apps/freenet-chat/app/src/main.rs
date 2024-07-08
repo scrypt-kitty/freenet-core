@@ -32,7 +32,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync + 'static>
         .init();
 
     const PING_CODE: &[u8] =
-        include_bytes!("../../contracts/chat/build/freenet/freenet_ping_contract");
+        include_bytes!("../../contracts/room/build/freenet/freenet_ping_contract");
 
     // create a websocket connection to host.
     let uri = format!(
@@ -128,7 +128,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync + 'static>
                 HostResponse::ContractResponse(resp) => {
                   match resp {
                     ContractResponse::PutResponse { key } => {
-                      tracing::info!(key=%key, "put chat contract successfully!");
+                      tracing::info!(key=%key, "put room contract successfully!");
                       // we successfully put the contract, so we subscribe to the contract.
                       if key == contract_key {
                         if let Err(e) = client.send(ClientRequest::ContractOp(ContractRequest::Subscribe { key, summary: None })).await {

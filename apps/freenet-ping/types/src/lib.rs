@@ -7,25 +7,25 @@ pub use chrono;
 #[derive(Debug, Default, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "clap", derive(clap::Parser))]
 pub struct PingContractOptions {
-    /// Time to live for the chat record.
+    /// Time to live for the room record.
     #[serde(with = "humantime_serde")]
     #[cfg_attr(feature = "clap", clap(long, value_parser = duration_parser, default_value = "5s"))]
     pub ttl: Duration,
 
-    /// The frequency to send chat record.
+    /// The frequency to send room record.
     #[serde(with = "humantime_serde")]
     #[cfg_attr(feature = "clap", clap(long, value_parser = duration_parser, default_value = "1s"))]
     pub frequency: Duration,
 
-    /// The tag of the chat contract
+    /// The tag of the room contract
     #[serde(default = "freenet_ping")]
-    #[cfg_attr(feature = "clap", clap(long, default_value = "freenet-chat"))]
+    #[cfg_attr(feature = "clap", clap(long, default_value = "freenet-room"))]
     pub tag: String,
 }
 
 #[inline]
 fn freenet_ping() -> String {
-    "freenet-chat".to_string()
+    "freenet-room".to_string()
 }
 
 #[cfg(feature = "clap")]
